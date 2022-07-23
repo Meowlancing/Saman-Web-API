@@ -1,7 +1,10 @@
 const router = require('express').Router();
+const Seller = require("../models/Seller");
 
-router.get("/", (req,res)=>{
-    res.send("Seller Register");
+//REGISTER
+
+router.post("/register", (req,res)=>{
+    const seller = new Seller
 })
 
 module.exports = router;
