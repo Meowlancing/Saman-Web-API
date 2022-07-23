@@ -1,0 +1,29 @@
+{
+  "name": "saman-web-api",
+  "version": "1.0.0",
+  "description": "Web Server API for saman.com website",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Meowlancing/Saman-Web-API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Meowlancing/Saman-Web-API/issues"
+  },
+  "homepage": "https://github.com/Meowlancing/Saman-Web-API#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "helmet": "^5.1.0",
+    "mongoose": "^6.4.6",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.19"
+  }
+}
