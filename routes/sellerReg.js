@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 router.get("/", (req,res)=>{
-    res.send("Seller Route");
+    res.send("Seller Register");
 })
 
 module.exports = router;
