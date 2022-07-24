@@ -4,8 +4,6 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const helmet = require('helmet');
-const sellerRoute = require("./routes/seller");
-const sellerRegRoute = require("./routes/sellerReg");
 
 
 dotenv.config();
@@ -20,8 +18,7 @@ app.use(helmet());
 app.use(morgan("common"));
 
 //routes
-app.use("/api/Seller", sellerRoute);
-app.use("/api/SellerRegister", sellerRegRoute);
+
 
 app.listen(8000,()=>{
     console.log("Server is running...")
