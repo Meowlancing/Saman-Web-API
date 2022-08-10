@@ -15,3 +15,8 @@ app.use(cors({
 app.get('/', async (req, res) => {
 	return res.send('This is the Saman.com API server!');
 });
+
+app.listen(
+    process.env.PORT || 3000,
+    () => console.log(`Listening on PORT ${process.env.PORT}...`)
+);
