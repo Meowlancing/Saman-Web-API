@@ -12,4 +12,6 @@ app.use(cors({
 	credentials: 'true'
 }));
 
-
+app.get('/', async (req, res) => {
+	return res.send('This is the Saman.com API server!');
+});
