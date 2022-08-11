@@ -8,13 +8,15 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-	origin: '',
+	origin: '*',
 	credentials: 'true'
 }));
 
 app.get('/', async (req, res) => {
 	return res.send('This is the Saman.com API server!');
 });
+
+app.use('/api', require('./routes/api/api'));
 
 app.listen(
     process.env.PORT || 3000,
