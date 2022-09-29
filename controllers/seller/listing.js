@@ -1,6 +1,4 @@
-const jwt = require('jsonwebtoken');
 const { productModel } = require('../../schemas/product');
-const { sellerModel } = require('../../schemas/seller');
 require('dotenv').config();
 
 exports.getProductsHandler = async (req, res) => {
@@ -22,7 +20,7 @@ exports.getProductsHandler = async (req, res) => {
     }
 };
 
-exports.postProductHandler = async (req, res) => {
+exports.postProductsHandler = async (req, res) => {
     try {
         if (!req.USEROBJ)
             throw new Error('Fatal: USEROBJ key not found on request');
