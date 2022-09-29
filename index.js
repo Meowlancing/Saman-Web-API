@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 require('dotenv').config();
-require('./mdb/mdb').setup();
+require('./config/mdb.config').setup();
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.get('/', async (req, res) => {
 	return res.send('This is the Saman.com API server!');
 });
 
-app.use('/api', require('./routes/api/api'));
+app.use('/', require('./routes/index'));
 
 app.listen(
     process.env.PORT || 3000,
