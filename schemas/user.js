@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config('../.env');
 
-const sellerSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -24,32 +24,48 @@ const sellerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    cart: [{
+        product_id: mongoose.Schema.Types.ObjectId,
+        user_id: mongoose.Schema.Types.ObjectId,
+        quantity: { 
+            type: Number,
+            min: 1
+        }
+    }],
+
+    // -------------------- seller section starts here -------------------- //
+
+    is_seller: { 
+        type: Boolean,
+        default: false,
+    },
     aadhaar_number: {
         type: String,
-        required: true
+        default: null
     },
     owner_picture: {
         type: String,
-        required: true
+        default: null
     },
     shop_name: {
         type: String,
-        required: true
+        default: null
     },
     shop_address: {
         type: String,
-        required: true
+        default: null
     },
     shop_picture: {
         type: String,
-        required: true
+        default: null
     },
-    products: {
-        type: mongoose.Schema.Types.ObjectId
-    }
+    products: [mongoose.Schema.Types.ObjectId]
+
+    // --------------------- seller section ends here --------------------- //
+
 }, {
     versionKey: false,
     timestamps: true
 });
 
-exports.sellerModel = mongoose.model('Seller', sellerSchema, 'sellers');
+exports.userModel = mongoose.model('User', userSchema, 'users');

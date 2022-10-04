@@ -1,6 +1,9 @@
-const { sellerModel } = require("../schemas/seller");
-require('dotenv').config('../.env');
+const jwt = require('jsonwebtoken');
+const { userModel } = require('../../schemas/user');
+const { rtokenModel } = require('../../schemas/rtoken');
+require('dotenv').config();
 
+/* Function to authorise user with permission to access protected user data */
 exports.authorisationHandler = async (req, res, next) => {
     try {
         if (req.headers.authorization) {
@@ -10,9 +13,9 @@ exports.authorisationHandler = async (req, res, next) => {
                         success: false,
                         message: process.env.DEBUG_MODE? err.message : 'An error was encountered, check your request and try again'
                     });
-                } else if (await rtokenModel.findOne({ email: userObj.email, utype: 'buyer' }) != null) {
+                } else if (await rtokenModel.findOne({ email: userObj.email, utype: 'user' }) != null) {
                     req.IS_AUTH = true;
-                    req.USEROBJ = await sellerModel.findOne({ _id: userObj._id });
+                    req.USEROBJ = await userModel.findOne({ _id: userObj._id });
                     return next();
                 } else {
                     return res.status(403).json({
@@ -28,13 +31,13 @@ exports.authorisationHandler = async (req, res, next) => {
             });
         }
     } catch (e) {
+        console.error(e);
         res.status(500).json({
             success: false,
             message: process.env.DEBUG_MODE? e.message : 'An error was encountered, check your request and try again'
         });
     }
 };
-
 
 /* Function to create new authorisation token from refresh token after the latter's expiry */
 exports.refreshAuthorisationHandler = async (req, res) => {
@@ -48,7 +51,7 @@ exports.refreshAuthorisationHandler = async (req, res) => {
                     message: 'Invalid token'
                 });
 
-            const userObj = await sellerModel.findOne({ email: rtokenObj.email });
+            const userObj = await userModel.findOne({ email: rtokenObj.email });
 
             if (userObj == null)
                 return res.status(400).json({
@@ -60,8 +63,8 @@ exports.refreshAuthorisationHandler = async (req, res) => {
                     _id: userObj._id,
                     email: userObj.email
                 },
-                process.env.JWT_SECRET,
-                { expiresIn: parseInt(process.env.JWT_EXP) }
+                process.env.JWT_SECRET
+                /* { expiresIn: parseInt(process.env.JWT_EXP) } */
             );
 
             return res.status(200).json({
@@ -76,6 +79,7 @@ exports.refreshAuthorisationHandler = async (req, res) => {
             });
         }
     } catch (e) {
+        console.error(e);
         res.status(500).json({
             success: false,
             message: process.env.DEBUG_MODE? e.message : 'An error was encountered, check your request and try again'

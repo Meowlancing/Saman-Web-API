@@ -12,7 +12,7 @@ const rtokenSchema = new mongoose.Schema({
     },
     utype: {
         type: String,
-        enum: ['buyer', 'seller'],
+        enum: ['user', 'admin', 'superadmin'],
         required: true
     },
     expire_at: {

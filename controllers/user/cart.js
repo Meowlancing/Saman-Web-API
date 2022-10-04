@@ -1,4 +1,4 @@
-const { buyerModel } = require("../../schemas/buyer");
+const { userModel } = require("../../schemas/buyer");
 require('dotenv').config();
 
 exports.getCartHandler = async (req, res) => {
@@ -24,7 +24,7 @@ exports.postCartHandler = async (req, res) => {
         if (!req.USEROBJ)
             throw new Error('Fatal: USEROBJ key not found on request');
         
-        const userObj = await buyerModel.findOne({ _id: req.USEROBJ._id });
+        const userObj = await userModel.findOne({ _id: req.USEROBJ._id });
         userObj.cart = req.body;
         await userObj.save();
 

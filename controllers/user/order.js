@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { orderModel } = require('../../schemas/order');
-const { buyerModel } = require('../../schemas/user');
+const { userModel } = require('../../schemas/user');
 require('dotenv').config();
 
 exports.getOrderHistoryHandler = async (req, res) => {
@@ -28,7 +28,7 @@ exports.postNewOrderHandler = async (req, res) => {
             throw new Error('Fatal: USEROBJ key not found on request');
 
         // Important: refer to the documentation in `schemas/order.js`
-        const userObj = await buyerModel.findOne({ _id: req.USEROBJ._id });
+        const userObj = await userModel.findOne({ _id: req.USEROBJ._id });
 
         const cartItems = userObj.cart;
         const uniqueSellers = ((x) => {
@@ -67,7 +67,7 @@ exports.postNewOrderHandler = async (req, res) => {
         });
 
         await orderModel.insertMany(toInsertArray);
-        await buyerModel.findOneAndUpdate({ _id: req.USEROBJ._id }, { cart: [] });
+        await userModel.findOneAndUpdate({ _id: req.USEROBJ._id }, { cart: [] });
 
         res.status(200).json({
             success: true,

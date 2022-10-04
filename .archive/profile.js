@@ -1,5 +1,5 @@
 const { rtokenModel } = require('../../schemas/rtoken');
-const { sellerModel } = require("../../schemas/seller");
+const { userModel } = require("../../schemas/seller");
 const { decrypt } = require("../../utils/rsa_4096");
 const { sha256_hex } = require("../../utils/sha256");
 require('dotenv').config();
@@ -33,7 +33,7 @@ exports.getUserProfileHandler = async (req, res) => {
 
 exports.postUserProfiletHandler = async (req, res) => {
     try {
-        const userObj = await sellerModel.findOne({ _id: req.USEROBJ._id });
+        const userObj = await userModel.findOne({ _id: req.USEROBJ._id });
         userObj.name = req.body.name;
         userObj.phone = req.body.phone;
         userObj.address = req.body.address;
@@ -60,7 +60,7 @@ exports.postUserCredentialHandler = async (req, res) => {
         if (!req.USEROBJ)
             throw new Error('Fatal: USEROBJ key not found on request');
 
-        const userObj = await sellerModel.findOne({ email: req.USEROBJ.email });
+        const userObj = await userModel.findOne({ email: req.USEROBJ.email });
 
         if (sha256_hex(decrypt(req.body.password)) !== userObj.password) {
             res.status(401).json({
@@ -80,7 +80,7 @@ exports.postUserCredentialHandler = async (req, res) => {
 
             await rtokenModel.deleteMany({
                 email: req.body.email,
-                utype: 'seller'
+                utype: 'user'
             });
 
             return res.status(200).json({

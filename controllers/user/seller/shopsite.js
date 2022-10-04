@@ -1,9 +1,9 @@
 const { productModel } = require("../../schemas/product");
-const { sellerModel } = require("../../schemas/seller");
+const { userModel } = require("../../schemas/seller");
 
 exports.getShopHandler = async (req, res) => {
     try {
-        const sellerProfile = await sellerModel.findOne({ _id: req.query.id });
+        const sellerProfile = await userModel.findOne({ _id: req.query.id });
         const sellerProducts = await productModel.findOne({ seller_id: req.query.id });
 
         return res.status(200).json({
@@ -14,7 +14,7 @@ exports.getShopHandler = async (req, res) => {
             seller_phone: sellerProfile.phone,
             shop_picture: sellerProfile.shop_picture,
             shop_address: sellerProfile.shop_address,
-            listed_products: sellerProducts
+            products: sellerProducts
         });
     } catch (e) {
         res.status(500).json({

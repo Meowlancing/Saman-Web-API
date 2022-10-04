@@ -7,8 +7,7 @@ require('dotenv').config('../.env');
  *   {
  *       customer_id: mongoose.Schema.Types.ObjectId,
  *       customer_address: String,
- *       products: [{ product_id: mongoose.Schema.Types.ObjectId, seller_id: mongoose.Schema.Types.ObjectId, quantity: Number }],
- *       is_delivered: { type: Boolean, default: false }
+ *       products: [{ product_id: mongoose.Schema.Types.ObjectId, seller_id: mongoose.Schema.Types.ObjectId, quantity: Number }]
  *   }
  */
 

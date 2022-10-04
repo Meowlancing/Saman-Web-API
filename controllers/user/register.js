@@ -1,22 +1,20 @@
 const { rtokenModel } = require("../../schemas/rtoken");
-const { sellerModel } = require("../../schemas/seller");
+const { userModel } = require("../../schemas/buyer");
 const { decrypt } = require("../../utils/rsa_4096");
 const { sha256_hex } = require("../../utils/sha256");
 require('dotenv').config();
 
 exports.registrationHandler = async (req, res) => {
     try {
-        if (!!(await sellerModel.findOne({ email: req.body.email }))) {
+        if (!!(await userModel.findOne({ email: req.body.email }))) {
             return res.status(400).json({
                 success: false,
                 message: 'Email already registered'
             });
         }
 
-        const newUserObj = new sellerModel(req.body);
-        const decryptedPwd = decrypt(newUserObj.password);
-        const pwdHash = sha256_hex(decryptedPwd);
-        newUserObj.password = pwdHash;
+        const newUserObj = new userModel(req.body);
+        newUserObj.password = sha256_hex(decrypt(newUserObj.password));
         await newUserObj.save();
 
         res.status(200).json({
@@ -36,19 +34,16 @@ exports.deregistrationHandler = async (req, res) => {
         if (!req.USEROBJ)
             throw new Error('Fatal: USEROBJ key not found on request');
             
-        const decryptedPwd = decrypt(req.body.password);
-        const pwdHash = sha256_hex(decryptedPwd);
-        const userObj = req.USEROBJ;
-        if (pwdHash !== userObj.password) {
+        if (sha256_hex(decrypt(req.body.password)) !== userObj.password) {
             res.status(401).json({
                 success: false,
                 message: 'User credentials invalid'
             });
         } else {
-            await sellerModel.deleteMany({ _id: userObj._id });
-            await rtokenModel.deleteMany({ 
-                email: req.USEROBJ.email, 
-                utype: 'seller'
+            await userModel.deleteMany({ _id: userObj._id });
+            await rtokenModel.deleteMany({
+                email: req.USEROBJ.email,
+                utype: 'user'
             });
             res.status(200).json({
                 success: true,
