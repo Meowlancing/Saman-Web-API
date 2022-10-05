@@ -1,4 +1,4 @@
-const { userModel } = require("../../schemas/buyer");
+const { userModel } = require("../../schemas/user");
 require('dotenv').config();
 
 exports.getCartHandler = async (req, res) => {

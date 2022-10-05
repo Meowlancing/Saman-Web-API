@@ -1,5 +1,5 @@
 const { userModel } = require('../../../schemas/user');
-const { productModel } = require('../../schemas/product');
+const { productModel } = require('../../../schemas/product');
 require('dotenv').config();
 
 exports.getProductsHandler = async (req, res) => {

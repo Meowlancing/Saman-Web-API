@@ -1,4 +1,4 @@
-const { orderModel } = require('../../schemas/order');
+const { orderModel } = require('../../../schemas/order');
 require('dotenv').config();
 
 exports.getOrdersHandler = async (req, res) => {

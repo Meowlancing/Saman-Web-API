@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const { decrypt } = require('../../utils/rsa_4096');
-const { userModel } = require('../../schemas/buyer');
+const { userModel } = require('../../schemas/user');
 const { rtokenModel } = require('../../schemas/rtoken');
 const { sha256_hex } = require('../../utils/sha256');
 require('dotenv').config();

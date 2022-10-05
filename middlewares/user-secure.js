@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const { userModel } = require('../../schemas/user');
-const { rtokenModel } = require('../../schemas/rtoken');
+const { userModel } = require('../schemas/user'); 
+const { rtokenModel } = require('../schemas/rtoken');
 require('dotenv').config();
 
 /* Function to authorise user with permission to access protected user data */

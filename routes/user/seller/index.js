@@ -1,39 +1,26 @@
 const express = require('express');
+const { getProductsHandler, postProductHandler, deleteProductHandler } = require('../../../controllers/user/seller/products');
+const { selleriseHandler, deselleriseHandler } = require('../../../controllers/user/seller/sellerise');
+const { getShopHandler } = require('../../../controllers/user/seller/shopsite');
+const { getOrdersHandler } = require('../../../controllers/user/seller/todo');
+const { authorisationHandler } = require('../../../middlewares/user-secure');
 const router = express.Router();
 
-const sellerAuth = require('../../middlewares/seller-secure');
-const sellerLogin = require('../../controllers/seller/login');
-const sellerRegister = require('../../controllers/seller/register');
-const sellerProfile = require('../../controllers/seller/profile');
-const sellerShop = require('../../controllers/seller/shop');
-const sellerOrder = require('../../controllers/seller/order');
-
 router.route('/register')
-    .post(sellerRegister.deregistrationHandler);
+    .post(authorisationHandler, selleriseHandler);
 
 router.route('/deregister')
-    .post(sellerAuth.authorisationHandler, sellerRegister.deregistrationHandler);
+    .post(authorisationHandler, deselleriseHandler);
 
-router.route('/login')
-    .post(sellerLogin.userLoginHandler);
+router.route('/shopsite')
+    .post(authorisationHandler, getShopHandler);
 
-router.route('/logout')
-    .post(sellerAuth.authorisationHandler, sellerLogin.userLogoutHandler);
+router.route('/orders')
+    .get(authorisationHandler, getOrdersHandler);
 
-router.route('/shop')
-    .get(sellerShop.getShopHandler);
-
-router.route('/order-history')
-    .get(sellerAuth.authorisationHandler, sellerOrder.getOrdersHandler);
-
-router.route('/profile')
-    .get(sellerAuth.authorisationHandler, sellerProfile.getUserProfileHandler)
-    .post(sellerAuth.authorisationHandler, sellerProfile.postUserProfiletHandler);
-
-router.route('/change-credentials')
-    .post(sellerAuth.authorisationHandler, sellerProfile.postUserCredentialHandler);
-
-router.route('/token')
-    .post(sellerAuth.refreshAuthorisationHandler);
+router.route('/products')
+    .get(authorisationHandler, getProductsHandler)
+    .post(authorisationHandler, postProductHandler)
+    .delete(authorisationHandler, deleteProductHandler);
 
 module.exports = router;

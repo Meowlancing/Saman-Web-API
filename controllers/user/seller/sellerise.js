@@ -1,8 +1,8 @@
 const { productModel } = require("../../../schemas/product");
-const { rtokenModel } = require("../../schemas/rtoken");
-const { userModel } = require("../../schemas/seller");
-const { decrypt } = require("../../utils/rsa_4096");
-const { sha256_hex } = require("../../utils/sha256");
+const { rtokenModel } = require("../../../schemas/rtoken");
+const { userModel } = require("../../../schemas/user");
+const { decrypt } = require("../../../utils/rsa_4096");
+const { sha256_hex } = require("../../../utils/sha256");
 require('dotenv').config();
 
 exports.selleriseHandler = async (req, res) => {

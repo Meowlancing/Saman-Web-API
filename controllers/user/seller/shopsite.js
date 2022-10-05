@@ -1,10 +1,19 @@
-const { productModel } = require("../../schemas/product");
-const { userModel } = require("../../schemas/seller");
+const { productModel } = require("../../../schemas/product");
+const { userModel } = require("../../../schemas/user");
 
 exports.getShopHandler = async (req, res) => {
     try {
-        const sellerProfile = await userModel.findOne({ _id: req.query.id });
-        const sellerProducts = await productModel.findOne({ seller_id: req.query.id });
+        if (!req.USEROBJ)
+            throw new Error('Fatal: USEROBJ key not found on request');
+        
+        var sellerProfile, sellerProducts;
+        if (req.query.id) {
+            sellerProfile = await userModel.findOne({ _id: req.query.id });
+            sellerProducts = await productModel.findOne({ seller_id: req.query.id });
+        } else {
+            sellerProfile = await userModel.findOne({ _id: req.USEROBJ.id });
+            sellerProducts = await productModel.findOne({ seller_id: req.USEROBJ.id });
+        }
 
         return res.status(200).json({
             shop_name: sellerProfile.shop_name,
